@@ -6,10 +6,17 @@
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
+        <ApplicationIcon>..\Resources\DjvuToPdf.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Aspose.Imaging" Version="23.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\Resources\DjvuToPdf.ico">
+        <Link>DjvuToPdf.ico</Link>
+      </None>
     </ItemGroup>
 
 </Project>
