@@ -1,11 +1,26 @@
 ﻿namespace DTP.Domain;
 
+/// <summary>
+/// Класс для работы с конвертируемыми файлами.
+/// </summary>
 public static class File
 {
+    /// <summary>
+    /// Расширение входного файла.
+    /// </summary>
     private const string InputExtension = ".djvu";
+
+    /// <summary>
+    /// Расширение выходного файла.
+    /// </summary>
     private const string OutputExtension = ".pdf";
 
 
+    /// <summary>
+    /// Конвертирует файл .djvu в .pdf .
+    /// </summary>
+    /// <param name="executableFile">Путь к входному файлу.</param>
+    /// <returns>Путь к выходному файлу.</returns>
     public static string ConvertToPdf(string executableFile)
     {
         (string inputFilePath, string outputFilePath) = GetPaths(executableFile);
@@ -20,16 +35,27 @@ public static class File
         return outputFilePath;
     }
 
-    public static void Open(string outputFilePath)
+    /// <summary>
+    /// Открывает файл программой по умолчанию.
+    /// </summary>
+    /// <param name="filePath">Путь к файлу.</param>
+    public static void Open(string filePath)
     {
         Process.Start(
             new ProcessStartInfo
             {
-                FileName = outputFilePath,
+                FileName = filePath,
                 UseShellExecute = true
             });
     }
 
+    /// <summary>
+    /// Возвращает пути к входному и выходному файлам.
+    /// <remarks>При запуске программы в режиме DEBUG
+    /// путь к входному файлу меняется на стандартный.</remarks>
+    /// </summary>
+    /// <param name="executableFile">Путь к входному файлу.</param>
+    /// <returns> Пути к входному и выходному файлам.</returns>
     private static (string inputFilePath, string outputFilePath) GetPaths(string executableFile)
     {
 #if DEBUG
