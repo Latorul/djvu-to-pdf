@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Reflection;
 using Aspose.Imaging.ImageOptions;
 
 namespace DTP.Domain;
@@ -6,26 +7,28 @@ namespace DTP.Domain;
 public static class Program
 {
 	[STAThread]
-	private static void Main()
+	private static void Main(string[] args)
 	{
-		(string inputFilePath, string outputFilePath) = GetFilesPath();
+		var executableFile = args[0];
+		if (Path.GetExtension(executableFile) != ".djvu")
+			return;
+
+		(string inputFilePath, string outputFilePath) = GetFilesPath(executableFile);
 		ConvertFile(inputFilePath, outputFilePath);
 		OpenFile(outputFilePath);
 	}
 
-	private static (string inputFilePath, string outputFilePath) GetFilesPath()
+	private static (string inputFilePath, string outputFilePath) GetFilesPath(string executableFile)
 	{
+#if DEBUG
+		executableFile = "template.djvu";
+#endif
+
 		const string inputExtension = ".djvu";
 		const string outputExtension = ".pdf";
 
-#if DEBUG
-		const string processPath = "template.djvu";
-#else
-		string processPath = Environment.ProcessPath!;
-#endif
-
-		var directory = Path.GetDirectoryName(processPath);
-		var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(processPath);
+		var directory = Path.GetDirectoryName(executableFile);
+		var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(executableFile);
 
 		var inputFilePath = Path.Combine(directory!, fileNameWithoutExtension + inputExtension);
 		var outputFilePath = Path.Combine(directory!, fileNameWithoutExtension + outputExtension);
