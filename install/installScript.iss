@@ -1,5 +1,5 @@
 #define Output "Output"
-#define MyAppVersion "1.0"
+#define MyAppVersion "0.1.0"
 #define License "..\LICENSE"
 #define MyAppAssocExt ".djvu"
 #define MyAppName "DjvuToPdf"
@@ -7,7 +7,6 @@
 #define MyAppPublisher "Latorul"
 #define MyAppAssocName "DJVU to PDF"
 #define MyAppExeName "DTP.Domain.exe"
-#define SetupIcon "..\src\Resources\DjvuToPdf.ico"
 #define MyAppURL "https://github.com/Latorul/DjvuToPdf"
 #define SetupFileName "DjvuToPdf_v" + MyAppVersion + "_setup"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
@@ -29,7 +28,6 @@ LicenseFile={#License}
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir={#Output}
 OutputBaseFilename={#SetupFileName}
-SetupIconFile={#SetupIcon}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -49,8 +47,4 @@ Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; Value
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".djvu"; ValueData: ""
-
-[Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
