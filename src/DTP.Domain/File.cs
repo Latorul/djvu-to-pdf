@@ -6,11 +6,6 @@
 public static class File
 {
     /// <summary>
-    /// Расширение входного файла.
-    /// </summary>
-    private const string InputExtension = ".djvu";
-
-    /// <summary>
     /// Расширение выходного файла.
     /// </summary>
     private const string OutputExtension = ".pdf";
@@ -23,9 +18,9 @@ public static class File
     /// <returns>Путь к выходному файлу.</returns>
     public static string ConvertToPdf(string executableFile)
     {
-        (string inputFilePath, string outputFilePath) = GetPaths(executableFile);
+        var outputFilePath = GetOutputPath(executableFile);
 
-        using var image = Aspose.Imaging.Image.Load(inputFilePath);
+        using var image = Aspose.Imaging.Image.Load(executableFile);
         var exportOptions = new PdfOptions
         {
             PdfDocumentInfo = new PdfDocumentInfo()
@@ -50,24 +45,17 @@ public static class File
     }
 
     /// <summary>
-    /// Возвращает пути к входному и выходному файлам.
-    /// <remarks>При запуске программы в режиме DEBUG
-    /// путь к входному файлу меняется на стандартный.</remarks>
+    /// Возвращает путь к выходному файлу.
     /// </summary>
     /// <param name="executableFile">Путь к входному файлу.</param>
-    /// <returns> Пути к входному и выходному файлам.</returns>
-    private static (string inputFilePath, string outputFilePath) GetPaths(string executableFile)
+    /// <returns>Путь к выходному файлу.</returns>
+    private static string GetOutputPath(string executableFile)
     {
-#if DEBUG
-        executableFile = "template.djvu";
-#endif
-
         var directory = Path.GetDirectoryName(executableFile);
         var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(executableFile);
 
-        var inputFilePath = Path.Combine(directory!, fileNameWithoutExtension + InputExtension);
         var outputFilePath = Path.Combine(directory!, fileNameWithoutExtension + OutputExtension);
 
-        return (inputFilePath, outputFilePath);
+        return outputFilePath;
     }
 }
