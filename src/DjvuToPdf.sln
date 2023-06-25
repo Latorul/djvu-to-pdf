@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTP.Domain", "DTP.Domain\DTP.Domain.csproj", "{FF4D76BD-C565-47CC-8B7D-F925D3CD6DA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTP.View", "DTP.View\DTP.View.csproj", "{FF4D76BD-C565-47CC-8B7D-F925D3CD6DA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTP.Domain", "DTP.Domain\DTP.Domain.csproj", "{B807FB92-F744-4DD7-B192-2284C935B67D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{FF4D76BD-C565-47CC-8B7D-F925D3CD6DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF4D76BD-C565-47CC-8B7D-F925D3CD6DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF4D76BD-C565-47CC-8B7D-F925D3CD6DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B807FB92-F744-4DD7-B192-2284C935B67D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B807FB92-F744-4DD7-B192-2284C935B67D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B807FB92-F744-4DD7-B192-2284C935B67D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B807FB92-F744-4DD7-B192-2284C935B67D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
