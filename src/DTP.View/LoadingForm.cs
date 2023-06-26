@@ -1,33 +1,33 @@
-﻿using DTP.Domain;
+using DTP.Domain;
 
 namespace DTP.View;
 
 public partial class LoadingForm : Form
 {
-	private readonly string[] _args;
+    private readonly string[] _args;
 
 
-	public LoadingForm(string[] args)
-	{
-		InitializeComponent();
-		_args = args;
-	}
+    public LoadingForm(string[] args)
+    {
+        InitializeComponent();
+        _args = args;
+    }
 
-	private async void LoadingForm_Shown(object sender, EventArgs e)
-	{
-		LoadingBar.Start();
-		try
-		{
-			await Converter.ConvertDjvuToPdf(_args);
-		}
-		catch (Exception exception)
-		{
-			MessageBox.Show(exception.Message, "Error while converting");
-		}
-		finally
-		{
-			LoadingBar.Stop();
-			Application.Exit();
-		}
-	}
+    private async void LoadingForm_Shown(object sender, EventArgs e)
+    {
+        LoadingBar.Start();
+        try
+        {
+            await Converter.ConvertDjvuToPdf(_args);
+        }
+        catch (Exception exception)
+        {
+            LoadingBar.Stop();
+            MessageBox.Show(exception.Message, "Error while converting");
+        }
+        finally
+        {
+            Application.Exit();
+        }
+    }
 }
