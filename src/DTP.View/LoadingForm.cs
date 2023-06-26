@@ -1,11 +1,9 @@
-﻿using System.Windows.Forms;
-
-namespace DTP.View;
+﻿namespace DTP.View;
 
 public partial class LoadingForm : Form
 {
-    public LoadingForm()
-    {
-        InitializeComponent();
-    }
+	public LoadingForm()
+	{
+		InitializeComponent();
+	}
 }

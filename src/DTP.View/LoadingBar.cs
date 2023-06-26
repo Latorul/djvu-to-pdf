@@ -1,5 +1,8 @@
 ﻿namespace DTP.View;
 
+/// <summary>
+/// Строка загрузки.
+/// </summary>
 public partial class LoadingBar : UserControl
 {
 	/// <summary>
