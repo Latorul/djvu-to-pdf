@@ -26,7 +26,15 @@ public static class File
             PdfDocumentInfo = new PdfDocumentInfo()
         };
 
-        image.Save(outputFilePath, exportOptions);
+        try
+        {
+            image.Save(outputFilePath, exportOptions);
+        }
+        catch
+        {
+            System.IO.File.Delete(outputFilePath);
+            throw;
+        }
         return outputFilePath;
     }
 

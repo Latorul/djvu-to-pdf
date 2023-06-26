@@ -1,15 +1,15 @@
 namespace DTP.Domain;
 
 /// <summary>
-/// Класс по конвертации файлов из одного формата в другой.
+/// РљР»Р°СЃСЃ РїРѕ РєРѕРЅРІРµСЂС‚Р°С†РёРё С„Р°Р№Р»РѕРІ РёР· РѕРґРЅРѕРіРѕ С„РѕСЂРјР°С‚Р° РІ РґСЂСѓРіРѕР№.
 /// </summary>
 public static class Converter
 {
 	/// <summary>
-	/// Конвертирует файл из .djvu в .pdf.
+	/// РљРѕРЅРІРµСЂС‚РёСЂСѓРµС‚ С„Р°Р№Р» РёР· .djvu РІ .pdf.
 	/// </summary>
-	/// <param name="args">Путь к конвертируемому файлу.</param>
-	/// <exception cref="ArgumentException">Конвертируемый файл в неправильном формате.</exception>
+	/// <param name="args">РџСѓС‚СЊ Рє РєРѕРЅРІРµСЂС‚РёСЂСѓРµРјРѕРјСѓ С„Р°Р№Р»Сѓ.</param>
+	/// <exception cref="ArgumentException">РљРѕРЅРІРµСЂС‚РёСЂСѓРµРјС‹Р№ С„Р°Р№Р» РІ РЅРµРїСЂР°РІРёР»СЊРЅРѕРј С„РѕСЂРјР°С‚Рµ.</exception>
 	public static async Task ConvertDjvuToPdf(string[] args)
 	{
 		await Task.Run(() =>
