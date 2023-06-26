@@ -1,16 +1,16 @@
 #define Output "Output"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "1.0.0"
 #define License "..\LICENSE"
 #define MyAppAssocExt ".djvu"
 #define MyAppName "DjvuToPdf"
 #define Configuration "Release"
 #define MyAppPublisher "Latorul"
 #define MyAppAssocName "DJVU to PDF"
-#define MyAppExeName "DTP.Domain.exe"
+#define MyAppExeName "DTP.View.exe"
 #define MyAppURL "https://github.com/Latorul/DjvuToPdf"
 #define SetupFileName "DjvuToPdf_v" + MyAppVersion + "_setup"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
-#define SourceFiles "..\src\DTP.Domain\bin\" + Configuration + "\net7.0-windows"
+#define SourceFiles "..\src\DTP.View\bin\" + Configuration + "\net7.0-windows"
 
 [Setup]
 AppId={{6C9C3248-4BDC-473F-BA79-A5BB498220C2}
