@@ -14,4 +14,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\DTP.Domain\DTP.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -79,6 +79,7 @@ partial class LoadingForm
 		Name = "LoadingForm";
 		StartPosition = FormStartPosition.CenterScreen;
 		Text = "DJVU to DPF";
+		Shown += LoadingForm_Shown;
 		ResumeLayout(false);
 		PerformLayout();
 	}

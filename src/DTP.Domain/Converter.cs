@@ -10,17 +10,20 @@ public static class Converter
 	/// </summary>
 	/// <param name="args">Путь к конвертируемому файлу.</param>
 	/// <exception cref="ArgumentException">Конвертируемый файл в неправильном формате.</exception>
-	public static void ConvertDjvuToPdf(string[] args)
+	public static async Task ConvertDjvuToPdf(string[] args)
 	{
+		await Task.Run(() =>
+		{
 #if DEBUG
-		const string executableFile = "template.djvu";
+			const string executableFile = "template.djvu";
 #else
             var executableFile = args[0];
 #endif
-		if (Path.GetExtension(executableFile) != ".djvu")
-			throw new ArgumentException("File format must be .djvu");
+			if (Path.GetExtension(executableFile) != ".djvu")
+				throw new ArgumentException("File format must be .djvu");
 
-		var outputFilePath = File.ConvertToPdf(executableFile);
-		File.Open(outputFilePath);
+			var outputFilePath = File.ConvertToPdf(executableFile);
+			File.Open(outputFilePath);
+		});
 	}
 }
