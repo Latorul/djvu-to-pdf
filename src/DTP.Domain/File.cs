@@ -1,4 +1,4 @@
-﻿namespace DTP.Domain;
+namespace DTP.Domain;
 
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.

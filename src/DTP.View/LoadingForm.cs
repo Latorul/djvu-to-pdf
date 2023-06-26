@@ -1,4 +1,4 @@
-﻿using DTP.Domain;
+using DTP.Domain;
 
 namespace DTP.View;
 
