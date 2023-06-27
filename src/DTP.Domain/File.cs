@@ -1,10 +1,4 @@
-﻿using System.Drawing;
-using System.Runtime.Versioning;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-
-
-namespace DTP.Domain;
+﻿namespace DTP.Domain;
 
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.
@@ -22,34 +16,13 @@ public static class File
     /// </summary>
     /// <param name="executableFile">Путь к входному файлу.</param>
     /// <returns>Путь к выходному файлу.</returns>
-    [SupportedOSPlatform("windows")]
     public static string ConvertToPdf(string executableFile)
     {
         var outputFilePath = GetOutputPath(executableFile);
 
         try
         {
-            var djvuDocument = new DjvuDocument(executableFile);
-
-            using var document = new PdfDocument();
-
-            foreach (DjvuPage? bitmapPage in djvuDocument.Pages)
-            {
-                using var stream = new MemoryStream();
-                bitmapPage.Image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-
-                PdfPage page = document.AddPage();
-                using (XImage img = XImage.FromStream(stream))
-                {
-                    page.Width = bitmapPage.Image.Width;
-                    page.Height = bitmapPage.Image.Height;
-
-                    XGraphics gfx = XGraphics.FromPdfPage(page);
-                    gfx.DrawImage(img, 0, 0, page.Width, page.Height);
-                }
-            }
-
-            document.Save(outputFilePath);
+            CreatePdf(executableFile, outputFilePath);
         }
         catch
         {
@@ -58,6 +31,38 @@ public static class File
         }
 
         return outputFilePath;
+    }
+
+    /// <summary>
+    /// Собирает PDF файл из страниц DJVU файла.
+    /// </summary>
+    /// <param name="inputFilePath">Путь к входному файлу.</param>
+    /// <param name="outputFilePath">Путь к выходному файлу.</param>
+    [SupportedOSPlatform("windows")]
+    private static void CreatePdf(string inputFilePath, string outputFilePath)
+    {
+        var djvuDocument = new DjvuDocument(inputFilePath);
+        var djvuPages = djvuDocument.Pages;
+        
+        using var pdfDocument = new PdfDocument();
+
+        foreach (DjvuPage? djvuPage in djvuPages)
+        {
+            var djvuImage = djvuPage.Image;
+            
+            using var stream = new MemoryStream();
+            djvuImage.Save(stream, ImageFormat.Bmp);
+            using var xImage = XImage.FromStream(stream);
+            
+            var page = pdfDocument.AddPage();
+            page.Width = djvuImage.Width;
+            page.Height = djvuImage.Height;
+
+            XGraphics graphics = XGraphics.FromPdfPage(page);
+            graphics.DrawImage(xImage, 0, 0, page.Width, page.Height);
+        }
+
+        pdfDocument.Save(outputFilePath);
     }
 
     /// <summary>
