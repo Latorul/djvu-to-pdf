@@ -1,10 +1,4 @@
-﻿using DjvuNet;
-using DjvuNet.Graphics;
-using PdfSharp.Pdf;
-using System.Collections.Concurrent;
-using System.Linq;
-
-namespace DTP.Domain;
+﻿namespace DTP.Domain;
 
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.
