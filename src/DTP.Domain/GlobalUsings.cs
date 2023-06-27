@@ -1,3 +1,6 @@
-﻿global using System.Diagnostics;
-global using Aspose.Imaging.ImageOptions;
-global using Aspose.Imaging.FileFormats.Pdf;
+﻿global using DjvuNet;
+global using PdfSharp.Pdf;
+global using PdfSharp.Drawing;
+global using System.Diagnostics;
+global using System.Drawing.Imaging;
+global using System.Runtime.Versioning;

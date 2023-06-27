@@ -9,9 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="LoadingForm.cs">
-        <SubType>Form</SubType>
-      </Compile>
+      <Compile Update="LoadingForm.cs" />
     </ItemGroup>
 
     <ItemGroup>
