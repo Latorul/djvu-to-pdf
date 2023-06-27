@@ -13,12 +13,12 @@ public partial class LoadingBar : UserControl
 	/// <summary>
 	/// Цвет неактивного элемента.
 	/// </summary>
-	private readonly Color DefaultColor = ColorTranslator.FromHtml("#0F7f7f7f");
+	public Color DefaultColor = ColorTranslator.FromHtml("#0F7f7f7f");
 
 	/// <summary>
 	/// Цвет активного элемента.
 	/// </summary>
-	private readonly Color ActiveColor = ColorTranslator.FromHtml("#FF00FF00");
+	public Color ActiveColor = ColorTranslator.FromHtml("#FF00FF00");
 
 	/// <summary>
 	/// Интервал между сменой активного элемента в миллисекундах.
