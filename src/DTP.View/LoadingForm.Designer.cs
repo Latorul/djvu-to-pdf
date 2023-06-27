@@ -34,6 +34,7 @@ partial class LoadingForm
 		label1 = new Label();
 		label2 = new Label();
 		LoadingBar = new LoadingBar();
+		ProgressBar = new ProgressBar();
 		SuspendLayout();
 		// 
 		// label1
@@ -64,12 +65,20 @@ partial class LoadingForm
 		LoadingBar.TabIndex = 2;
 		LoadingBar.TimerInterval = 100;
 		// 
+		// ProgressBar
+		// 
+		ProgressBar.Location = new Point(12, 86);
+		ProgressBar.Name = "ProgressBar";
+		ProgressBar.Size = new Size(220, 23);
+		ProgressBar.TabIndex = 3;
+		// 
 		// LoadingForm
 		// 
 		AutoScaleDimensions = new SizeF(7F, 15F);
 		AutoScaleMode = AutoScaleMode.Font;
 		BackColor = Color.White;
-		ClientSize = new Size(244, 92);
+		ClientSize = new Size(244, 121);
+		Controls.Add(ProgressBar);
 		Controls.Add(LoadingBar);
 		Controls.Add(label2);
 		Controls.Add(label1);
@@ -79,6 +88,7 @@ partial class LoadingForm
 		Name = "LoadingForm";
 		StartPosition = FormStartPosition.CenterScreen;
 		Text = "DJVU to DPF";
+		FormClosing += LoadingForm_FormClosing;
 		Shown += LoadingForm_Shown;
 		ResumeLayout(false);
 		PerformLayout();
@@ -89,4 +99,5 @@ partial class LoadingForm
 	private Label label1;
 	private Label label2;
 	private LoadingBar LoadingBar;
+	private ProgressBar ProgressBar;
 }
