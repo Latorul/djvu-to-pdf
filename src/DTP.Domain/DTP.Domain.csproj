@@ -9,6 +9,7 @@
     <ItemGroup>
       <PackageReference Include="Aspose.Imaging" Version="23.5.1" />
       <PackageReference Include="Djvu" Version="1.0.0" />
+      <PackageReference Include="PDFsharp" Version="6.0.0-preview-2" />
     </ItemGroup>
 
 </Project>

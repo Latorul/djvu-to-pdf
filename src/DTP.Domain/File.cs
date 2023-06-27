@@ -1,76 +1,91 @@
-﻿namespace DTP.Domain;
+﻿using System.Drawing;
+using System.Runtime.Versioning;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+
+
+namespace DTP.Domain;
 
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.
 /// </summary>
 public static class File
 {
-	/// <summary>
-	/// Расширение выходного файла.
-	/// </summary>
-	private const string OutputExtension = ".pdf";
+    /// <summary>
+    /// Расширение выходного файла.
+    /// </summary>
+    private const string OutputExtension = ".pdf";
 
 
-	/// <summary>
-	/// Конвертирует файл .djvu в .pdf .
-	/// </summary>
-	/// <param name="executableFile">Путь к входному файлу.</param>
-	/// <returns>Путь к выходному файлу.</returns>
-	public static string ConvertToPdf(string executableFile)
-	{
-		var outputFilePath = GetOutputPath(executableFile);
+    /// <summary>
+    /// Конвертирует файл .djvu в .pdf .
+    /// </summary>
+    /// <param name="executableFile">Путь к входному файлу.</param>
+    /// <returns>Путь к выходному файлу.</returns>
+    [SupportedOSPlatform("windows")]
+    public static string ConvertToPdf(string executableFile)
+    {
+        var outputFilePath = GetOutputPath(executableFile);
 
-		try
-		{
-			var document = new DjvuDocument(executableFile);
-			var bitmapPages = document.Pages.Select(page => page.Image).ToList();
+        try
+        {
+            var djvuDocument = new DjvuDocument(executableFile);
 
+            using var document = new PdfDocument();
 
-			////////////////////////////////////////////////////////////
-			//using var image = Aspose.Imaging.Image.Load(executableFile);
-			//var exportOptions = new PdfOptions
-			//{
-			//	PdfDocumentInfo = new PdfDocumentInfo()
-			//};
-			//
-			//image.Save(outputFilePath, exportOptions);
-			//////////////////////////////////////////
-		}
-		catch
-		{
-			System.IO.File.Delete(outputFilePath);
-			throw;
-		}
+            foreach (DjvuPage? bitmapPage in djvuDocument.Pages)
+            {
+                using var stream = new MemoryStream();
+                bitmapPage.Image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
 
-		return outputFilePath;
-	}
+                PdfPage page = document.AddPage();
+                using (XImage img = XImage.FromStream(stream))
+                {
+                    page.Width = bitmapPage.Image.Width;
+                    page.Height = bitmapPage.Image.Height;
 
-	/// <summary>
-	/// Открывает файл программой по умолчанию.
-	/// </summary>
-	/// <param name="filePath">Путь к файлу.</param>
-	public static void Open(string filePath)
-	{
-		Process.Start(
-			new ProcessStartInfo
-			{
-				FileName = filePath,
-				UseShellExecute = true
-			});
-	}
+                    XGraphics gfx = XGraphics.FromPdfPage(page);
+                    gfx.DrawImage(img, 0, 0, page.Width, page.Height);
+                }
+            }
 
-	/// <summary>
-	/// Возвращает путь к выходному файлу.
-	/// </summary>
-	/// <param name="executableFile">Путь к входному файлу.</param>
-	/// <returns>Путь к выходному файлу.</returns>
-	private static string GetOutputPath(string executableFile)
-	{
-		var directory = Path.GetDirectoryName(executableFile);
-		var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(executableFile);
+            document.Save(outputFilePath);
+        }
+        catch
+        {
+            System.IO.File.Delete(outputFilePath);
+            throw;
+        }
 
-		var outputFilePath = Path.Combine(directory!, fileNameWithoutExtension + OutputExtension);
+        return outputFilePath;
+    }
 
-		return outputFilePath;
-	}
+    /// <summary>
+    /// Открывает файл программой по умолчанию.
+    /// </summary>
+    /// <param name="filePath">Путь к файлу.</param>
+    public static void Open(string filePath)
+    {
+        Process.Start(
+            new ProcessStartInfo
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
+    }
+
+    /// <summary>
+    /// Возвращает путь к выходному файлу.
+    /// </summary>
+    /// <param name="executableFile">Путь к входному файлу.</param>
+    /// <returns>Путь к выходному файлу.</returns>
+    private static string GetOutputPath(string executableFile)
+    {
+        var directory = Path.GetDirectoryName(executableFile);
+        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(executableFile);
+
+        var outputFilePath = Path.Combine(directory!, fileNameWithoutExtension + OutputExtension);
+
+        return outputFilePath;
+    }
 }
