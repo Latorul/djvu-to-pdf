@@ -1,4 +1,3 @@
-using DTP.Domain;
 using System.ComponentModel;
 
 namespace DTP.View;
@@ -21,7 +20,7 @@ public partial class LoadingForm : Form
     public LoadingForm(string[] args)
     {
         InitializeComponent();
-        Converter.BackgroundWorker = ConvertingBackgroundWorker;
+        Domain.Converter.BackgroundWorker = ConvertingBackgroundWorker;
         _args = args;
     }
 
@@ -30,14 +29,7 @@ public partial class LoadingForm : Form
     /// </summary>
     private async void LoadingForm_Shown(object sender, EventArgs e)
     {
-        try
-        {
-            ConvertingBackgroundWorker.RunWorkerAsync();
-        }
-        catch (Exception exception)
-        {
-            MessageBox.Show(exception.Message, "Error while converting");
-        }
+        ConvertingBackgroundWorker.RunWorkerAsync();
     }
 
     /// <summary>
@@ -68,7 +60,14 @@ public partial class LoadingForm : Form
     /// </summary>
     private void ConvertingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
     {
-        Converter.ConvertDjvuToPdf(_args);
+        try
+        {
+            Domain.Converter.ConvertDjvuToPdf(_args);
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(exception.Message, "Error while converting");
+        }
     }
 
     /// <summary>
