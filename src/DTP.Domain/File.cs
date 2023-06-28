@@ -1,4 +1,6 @@
-﻿namespace DTP.Domain;
+﻿using System.ComponentModel;
+
+namespace DTP.Domain;
 
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.
@@ -10,6 +12,8 @@ public static class File
     /// </summary>
     private const string OutputExtension = ".pdf";
 
+    public static BackgroundWorker bw { get; set; }
+    public static int PageCount { get; set; }
 
     /// <summary>
     /// Конвертирует файл .djvu в .pdf .
@@ -43,12 +47,13 @@ public static class File
     {
         var djvuDocument = new DjvuDocument(inputFilePath);
         var unsafeDjvuPages = djvuDocument.Pages.ToList();
+        PageCount = unsafeDjvuPages.Count;
 
         using var pdfDocument = new PdfDocument();
         unsafeDjvuPages.ForEach(_ => { pdfDocument.AddPage(); });
 
         var djvuPages = new ConcurrentBag<DjvuPage>(djvuDocument.Pages).Reverse();
-        Parallel.For(0, djvuPages.Count(), i =>
+        Parallel.For(0, PageCount, i =>
         {
             var djvuImage = djvuPages.ElementAt(i).Image;
 
@@ -62,6 +67,8 @@ public static class File
 
             XGraphics graphics = XGraphics.FromPdfPage(page);
             graphics.DrawImage(xImage, 0, 0, page.Width, page.Height);
+            
+            bw.ReportProgress(1, PageCount);
         });
 
         pdfDocument.Save(outputFilePath);
