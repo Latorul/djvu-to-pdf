@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace DTP.Domain;
 
 /// <summary>
@@ -5,25 +7,29 @@ namespace DTP.Domain;
 /// </summary>
 public static class Converter
 {
-	/// <summary>
-	/// Конвертирует файл из .djvu в .pdf.
-	/// </summary>
-	/// <param name="args">Путь к конвертируемому файлу.</param>
-	/// <exception cref="ArgumentException">Конвертируемый файл в неправильном формате.</exception>
-	public static async Task ConvertDjvuToPdf(string[] args)
-	{
-		await Task.Run(() =>
-		{
-#if DEBUG
-			const string executableFile = "template.djvu";
-#else
-            var executableFile = args[0];
-#endif
-			if (Path.GetExtension(executableFile) != ".djvu")
-				throw new ArgumentException("File format must be .djvu");
+    /// <summary>
+    /// Оповещатель о завершении конвертации страниц.
+    /// </summary>
+    public static BackgroundWorker BackgroundWorker { get; set; }
 
-			var outputFilePath = File.ConvertToPdf(executableFile);
-			File.Open(outputFilePath);
-		});
-	}
+    /// <summary>
+    /// Конвертирует файл из .djvu в .pdf.
+    /// </summary>
+    /// <param name="args">Путь к конвертируемому файлу.</param>
+    /// <exception cref="ArgumentException">Конвертируемый файл в неправильном формате.</exception>
+    public static void ConvertDjvuToPdf(string[] args)
+    {
+#if DEBUG
+        const string executableFile = "template2.djvu";
+        //const string executableFile = "C:\\Users\\Artem\\Desktop\\b.djvu";
+#else
+        var executableFile = args[0];
+#endif
+        if (Path.GetExtension(executableFile) != ".djvu")
+            throw new ArgumentException("File format must be .djvu");
+
+        File.BackgroundWorker = BackgroundWorker;
+        var outputFilePath = File.ConvertToPdf(executableFile);
+        File.Open(outputFilePath);
+    }
 }

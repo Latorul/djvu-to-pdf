@@ -1,14 +1,26 @@
-﻿namespace DTP.Domain;
+﻿using System.ComponentModel;
+
+namespace DTP.Domain;
 
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.
 /// </summary>
-public static class File
+internal static class File
 {
     /// <summary>
     /// Расширение выходного файла.
     /// </summary>
     private const string OutputExtension = ".pdf";
+
+    /// <summary>
+    /// Оповещатель о завершении конвертации страниц.
+    /// </summary>
+    public static BackgroundWorker BackgroundWorker { get; set; }
+
+    /// <summary>
+    /// Количество страниц в конвертируемом документе.
+    /// </summary>
+    public static int PageCount { get; set; }
 
 
     /// <summary>
@@ -42,25 +54,30 @@ public static class File
     private static void CreatePdf(string inputFilePath, string outputFilePath)
     {
         var djvuDocument = new DjvuDocument(inputFilePath);
-        var djvuPages = djvuDocument.Pages;
-        
-        using var pdfDocument = new PdfDocument();
+        var unsafeDjvuPages = djvuDocument.Pages.ToList();
+        PageCount = unsafeDjvuPages.Count;
 
-        foreach (DjvuPage? djvuPage in djvuPages)
+        using var pdfDocument = new PdfDocument();
+        unsafeDjvuPages.ForEach(_ => { pdfDocument.AddPage(); });
+
+        var djvuPages = new ConcurrentBag<DjvuPage>(djvuDocument.Pages).Reverse();
+        Parallel.For(0, PageCount, i =>
         {
-            var djvuImage = djvuPage.Image;
-            
+            var djvuImage = djvuPages.ElementAt(i).Image;
+
             using var stream = new MemoryStream();
             djvuImage.Save(stream, ImageFormat.Bmp);
             using var xImage = XImage.FromStream(stream);
-            
-            var page = pdfDocument.AddPage();
+
+            var page = pdfDocument.Pages[i];
             page.Width = djvuImage.Width;
             page.Height = djvuImage.Height;
 
             XGraphics graphics = XGraphics.FromPdfPage(page);
             graphics.DrawImage(xImage, 0, 0, page.Width, page.Height);
-        }
+
+            BackgroundWorker.ReportProgress(1, PageCount);
+        });
 
         pdfDocument.Save(outputFilePath);
     }

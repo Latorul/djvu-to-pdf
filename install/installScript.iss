@@ -1,5 +1,5 @@
 #define Output "Output"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.1"
 #define License "..\LICENSE"
 #define MyAppAssocExt ".djvu"
 #define MyAppName "DjvuToPdf"
