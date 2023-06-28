@@ -21,6 +21,7 @@ public static class Converter
     {
 #if DEBUG
         const string executableFile = "template2.djvu";
+        //const string executableFile = "C:\\Users\\Artem\\Desktop\\b.djvu";
 #else
         var executableFile = args[0];
 #endif
