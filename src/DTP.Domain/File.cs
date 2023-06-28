@@ -5,15 +5,23 @@ namespace DTP.Domain;
 /// <summary>
 /// Класс для работы с конвертируемыми файлами.
 /// </summary>
-public static class File
+internal static class File
 {
     /// <summary>
     /// Расширение выходного файла.
     /// </summary>
     private const string OutputExtension = ".pdf";
 
-    public static BackgroundWorker bw { get; set; }
+    /// <summary>
+    /// Оповещатель о завершении конвертации страниц.
+    /// </summary>
+    public static BackgroundWorker BackgroundWorker { get; set; }
+
+    /// <summary>
+    /// Количество страниц в конвертируемом документе.
+    /// </summary>
     public static int PageCount { get; set; }
+
 
     /// <summary>
     /// Конвертирует файл .djvu в .pdf .
@@ -67,8 +75,8 @@ public static class File
 
             XGraphics graphics = XGraphics.FromPdfPage(page);
             graphics.DrawImage(xImage, 0, 0, page.Width, page.Height);
-            
-            bw.ReportProgress(1, PageCount);
+
+            BackgroundWorker.ReportProgress(1, PageCount);
         });
 
         pdfDocument.Save(outputFilePath);

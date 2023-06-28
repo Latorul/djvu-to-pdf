@@ -8,24 +8,27 @@ namespace DTP.Domain;
 public static class Converter
 {
     /// <summary>
+    /// Оповещатель о завершении конвертации страниц.
+    /// </summary>
+    public static BackgroundWorker BackgroundWorker { get; set; }
+
+    /// <summary>
     /// Конвертирует файл из .djvu в .pdf.
     /// </summary>
     /// <param name="args">Путь к конвертируемому файлу.</param>
     /// <exception cref="ArgumentException">Конвертируемый файл в неправильном формате.</exception>
     public static void ConvertDjvuToPdf(string[] args)
-	{
-		//await Task.Run(() =>
-		//{
+    {
 #if DEBUG
-			const string executableFile = "template2.djvu";
+        const string executableFile = "template2.djvu";
 #else
-            var executableFile = args[0];
+        var executableFile = args[0];
 #endif
-			if (Path.GetExtension(executableFile) != ".djvu")
-				throw new ArgumentException("File format must be .djvu");
+        if (Path.GetExtension(executableFile) != ".djvu")
+            throw new ArgumentException("File format must be .djvu");
 
-			var outputFilePath = File.ConvertToPdf(executableFile);
-			File.Open(outputFilePath);
-		//});
-	}
+        File.BackgroundWorker = BackgroundWorker;
+        var outputFilePath = File.ConvertToPdf(executableFile);
+        File.Open(outputFilePath);
+    }
 }

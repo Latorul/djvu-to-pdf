@@ -1,5 +1,4 @@
 using DTP.Domain;
-using System;
 using System.ComponentModel;
 
 namespace DTP.View;
@@ -22,30 +21,22 @@ public partial class LoadingForm : Form
     public LoadingForm(string[] args)
     {
         InitializeComponent();
-        Domain.File.bw = ConvertingBackgroundWorker;
+        Converter.BackgroundWorker = ConvertingBackgroundWorker;
         _args = args;
     }
-
 
     /// <summary>
     /// Запускает конвертацию.
     /// </summary>
     private async void LoadingForm_Shown(object sender, EventArgs e)
     {
-        LoadingBar.Start();
         try
         {
             ConvertingBackgroundWorker.RunWorkerAsync();
-            //await Converter.ConvertDjvuToPdf(_args);
         }
         catch (Exception exception)
         {
-            LoadingBar.Stop();
             MessageBox.Show(exception.Message, "Error while converting");
-        }
-        finally
-        {
-            //Application.Exit();
         }
     }
 
@@ -68,19 +59,30 @@ public partial class LoadingForm : Form
         {
             e.Cancel = true;
         }
+
+        ConvertingBackgroundWorker.CancelAsync();
     }
 
+    /// <summary>
+    /// Запускает конвертацию.
+    /// </summary>
     private void ConvertingBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
     {
         Converter.ConvertDjvuToPdf(_args);
     }
 
+    /// <summary>
+    /// Обновляет progressBar при завершении конвертации каждой страницы.
+    /// </summary>
     private void ConvertingBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
         ConvertingProgressBar.Maximum = (int)e.UserState!;
         ConvertingProgressBar.PerformStep();
     }
 
+    /// <summary>
+    /// Закрывает приложение при завершении процесса.
+    /// </summary>
     private void ConvertingBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
         Application.Exit();

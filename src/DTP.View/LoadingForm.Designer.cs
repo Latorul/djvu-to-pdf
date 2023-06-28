@@ -33,7 +33,6 @@ partial class LoadingForm
     {
         label1 = new Label();
         label2 = new Label();
-        LoadingBar = new LoadingBar();
         ConvertingProgressBar = new ProgressBar();
         ConvertingBackgroundWorker = new BackgroundWorker();
         SuspendLayout();
@@ -57,19 +56,9 @@ partial class LoadingForm
         label2.TabIndex = 1;
         label2.Text = "Please wait";
         // 
-        // LoadingBar
-        // 
-        LoadingBar.BackColor = Color.White;
-        LoadingBar.Location = new Point(12, 42);
-        LoadingBar.Name = "LoadingBar";
-        LoadingBar.Size = new Size(220, 38);
-        LoadingBar.TabIndex = 2;
-        LoadingBar.TimerInterval = 100;
-        // 
         // ConvertingProgressBar
         // 
-        ConvertingProgressBar.Location = new Point(12, 86);
-        ConvertingProgressBar.Maximum = 1000;
+        ConvertingProgressBar.Location = new Point(12, 42);
         ConvertingProgressBar.Name = "ConvertingProgressBar";
         ConvertingProgressBar.Size = new Size(220, 23);
         ConvertingProgressBar.Step = 1;
@@ -78,6 +67,7 @@ partial class LoadingForm
         // ConvertingBackgroundWorker
         // 
         ConvertingBackgroundWorker.WorkerReportsProgress = true;
+        ConvertingBackgroundWorker.WorkerSupportsCancellation = true;
         ConvertingBackgroundWorker.DoWork += ConvertingBackgroundWorker_DoWork;
         ConvertingBackgroundWorker.ProgressChanged += ConvertingBackgroundWorker_ProgressChanged;
         ConvertingBackgroundWorker.RunWorkerCompleted += ConvertingBackgroundWorker_RunWorkerCompleted;
@@ -87,9 +77,8 @@ partial class LoadingForm
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.White;
-        ClientSize = new Size(244, 121);
+        ClientSize = new Size(244, 77);
         Controls.Add(ConvertingProgressBar);
-        Controls.Add(LoadingBar);
         Controls.Add(label2);
         Controls.Add(label1);
         FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -108,7 +97,6 @@ partial class LoadingForm
 
     private Label label1;
     private Label label2;
-    private LoadingBar LoadingBar;
     private ProgressBar ConvertingProgressBar;
     private BackgroundWorker ConvertingBackgroundWorker;
 }
